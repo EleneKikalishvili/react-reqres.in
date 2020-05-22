@@ -18,6 +18,11 @@ function LogIn() {
     });
   };
 
+  const token = localStorage.getItem("Token");
+  if (token) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {Auth.isAuth && <Redirect to="/" />}
