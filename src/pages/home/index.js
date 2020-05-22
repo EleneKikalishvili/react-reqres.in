@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 
 function Home() {
-  const token = localStorage.getItem("Token");
+  const [redirect, setRedirect] = useState(false);
+  function handleClick() {
+    localStorage.removeItem("Token");
+    setRedirect(true);
+  }
+
+  if (redirect) {
+    return <Redirect to="/login" />;
+  }
+
   return (
     <div>
-      {!token && <Redirect to="/login" />}
       <h3>Home</h3>
+      <button
+        onClick={() => {
+          handleClick();
+        }}
+      >
+        Log Out
+      </button>
     </div>
   );
 }
