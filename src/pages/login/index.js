@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/authContext";
@@ -9,9 +9,15 @@ function LogIn() {
   const Auth = useContext(AuthContext);
   const { register, errors, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    makePostReq({ url: "/login", data: data });
-    Auth.login();
+    makePostReq({ url: "/login", data: data }).then((res) => {
+      console.log(res);
+      if (res) {
+        localStorage.setItem("Token", res.data.token);
+        Auth.login();
+      }
+    });
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {Auth.isAuth && <Redirect to="/" />}
