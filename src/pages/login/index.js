@@ -2,21 +2,20 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/authContext";
+import { makePostReq } from "../../api";
+import { Redirect } from "react-router-dom";
 
 function LogIn() {
   const Auth = useContext(AuthContext);
   const { register, errors, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    if (data["username"] === "superman") {
-      //Login
-      Auth.login();
-    } else {
-      alert("this user doesn't exist");
-    }
+    makePostReq({ url: "/login", data: data });
+    Auth.login();
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2>Signup</h2>
+      {Auth.isAuth && <Redirect to="/" />}
+      <h2>Log In</h2>
       <div className="form-group">
         <label htmlFor="exampleInputEmail1">Email address</label>
         <input
