@@ -9,14 +9,15 @@ export const makeGetReq = (url) =>
     .catch((error) => {
       throw error;
     });
-export const makePostReq = (params) =>
-  axios
-    .post(params.url, params.data)
-    .then((res) => localStorage.setItem("Token", res.data.token))
-    .catch((error) => {
-      window.alert("this user does't exist");
-      throw error;
-    });
+export const makePostReq = async (params) => {
+  try {
+    const response = await axios.post(params.url, params.data);
+    return response;
+  } catch (error) {
+    window.alert("user doesn't exist");
+    throw error;
+  }
+};
 export const makeDeleteReq = (url) =>
   axios
     .delete(url)
