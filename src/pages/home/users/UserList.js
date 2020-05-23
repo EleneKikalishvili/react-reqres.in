@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { makeGetReq } from "../../../api";
+import { makeGetReq, makeDeleteReq } from "../../../api";
 
 function UserList() {
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     makeGetReq("/users?page=1").then((res) => {
@@ -11,7 +11,31 @@ function UserList() {
     });
   }, []);
 
-  return <div></div>;
+  const handleDelete = (id, e) => {
+    e.preventDefault();
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (confirmed) {
+      makeDeleteReq(`/users/${id}`);
+    }
+  };
+
+  const content = users.map((ob) => {
+    return (
+      <div key={ob.id} id={ob.id}>
+        <img src={ob.avatar} alt={ob.first_name} />
+        <h3>{ob.first_name}</h3>
+        <h3>{ob.last_name}</h3>
+        <p>{ob.email}</p>
+        <button className="btn delete" onClick={(e) => handleDelete(ob.id, e)}>
+          Delete
+        </button>
+      </div>
+    );
+  });
+
+  return <div>{content}</div>;
 }
 
 export default UserList;
