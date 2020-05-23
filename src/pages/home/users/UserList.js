@@ -20,9 +20,7 @@ function UserList() {
       "Are you sure you want to delete this user?"
     );
     if (confirmed) {
-      makeDeleteReq(`/users/${id}`).then((res) => {
-        console.log(res.data);
-      });
+      makeDeleteReq(`/users/${id}`).then((res) => {});
     }
   };
 
