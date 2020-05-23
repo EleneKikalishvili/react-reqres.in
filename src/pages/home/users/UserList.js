@@ -3,13 +3,16 @@ import { makeGetReq, makeDeleteReq } from "../../../api";
 
 function UserList() {
   const [users, setUsers] = useState([]);
-
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    makeGetReq("/users?page=1").then((res) => {
+    makeGetReq(`/users?page=${page}`).then((res) => {
       setUsers(res.data.data);
+      if (page === 2) {
+        setUsers(users.concat(res.data.data));
+      }
       console.log(users);
     });
-  }, []);
+  }, [page]);
 
   const handleDelete = (id, e) => {
     e.preventDefault();
@@ -17,13 +20,15 @@ function UserList() {
       "Are you sure you want to delete this user?"
     );
     if (confirmed) {
-      makeDeleteReq(`/users/${id}`);
+      makeDeleteReq(`/users/${id}`).then((res) => {
+        console.log(res.data);
+      });
     }
   };
 
   const content = users.map((ob) => {
     return (
-      <div className="col-sm" key={ob.id} id={ob.id}>
+      <div className="col-6 col-sm-4 mt-3" key={ob.id} id={ob.id}>
         <img src={ob.avatar} alt={ob.first_name} />
         <h3>{ob.first_name}</h3>
         <h3>{ob.last_name}</h3>
@@ -38,10 +43,29 @@ function UserList() {
     );
   });
 
+  const handleClick = (e) => {
+    return setPage(2);
+  };
+
   return (
     <div className="container mt-5">
       {" "}
       <div className="row">{content}</div>
+      {page === 2 ? (
+        <button
+          className="btn btn-outline-danger mt-5"
+          onClick={(e) => handleClick(e)}
+        >
+          Nothing To Load
+        </button>
+      ) : (
+        <button
+          className="btn btn-outline-dark mt-5"
+          onClick={(e) => handleClick(e)}
+        >
+          Load More
+        </button>
+      )}
     </div>
   );
 }
