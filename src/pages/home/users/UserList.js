@@ -23,19 +23,27 @@ function UserList() {
 
   const content = users.map((ob) => {
     return (
-      <div key={ob.id} id={ob.id}>
+      <div className="col-sm" key={ob.id} id={ob.id}>
         <img src={ob.avatar} alt={ob.first_name} />
         <h3>{ob.first_name}</h3>
         <h3>{ob.last_name}</h3>
-        <p>{ob.email}</p>
-        <button className="btn delete" onClick={(e) => handleDelete(ob.id, e)}>
+        <p>Email: {ob.email}</p>
+        <button
+          className="btn btn-outline-danger"
+          onClick={(e) => handleDelete(ob.id, e)}
+        >
           Delete
         </button>
       </div>
     );
   });
 
-  return <div>{content}</div>;
+  return (
+    <div className="container mt-5">
+      {" "}
+      <div className="row">{content}</div>
+    </div>
+  );
 }
 
 export default UserList;
