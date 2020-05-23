@@ -30,8 +30,12 @@ function Signup() {
 
   return (
     <div>
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mx-auto mt-5"
+        style={{ width: "500px" }}
+      >
+        <h1 className="mb-4">Sign Up</h1>
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Email address</label>
           <input

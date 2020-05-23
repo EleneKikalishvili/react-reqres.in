@@ -24,9 +24,13 @@ function LogIn() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="mx-auto mt-5"
+      style={{ width: "500px" }}
+    >
       {Auth.isAuth && <Redirect to="/" />}
-      <h2>Log In</h2>
+      <h1 className="mb-4">Log In</h1>
       <div className="form-group">
         <label htmlFor="exampleInputEmail1">Email address</label>
         <input
