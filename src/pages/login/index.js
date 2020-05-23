@@ -10,7 +10,6 @@ function LogIn() {
   const { register, errors, handleSubmit } = useForm();
   const onSubmit = (data) => {
     makePostReq({ url: "/login", data: data }).then((res) => {
-      console.log(res);
       if (res) {
         localStorage.setItem("Token", res.data.token);
         Auth.login();
