@@ -21,10 +21,10 @@ export const makePostReq = async (params) => {
     throw error;
   }
 };
-export const makeDeleteReq = (url) =>
-  axios
+export const makeDeleteReq = async (url) =>
+  await axios
     .delete(url)
-    .then((res) => res)
+    .then((res) => console.log(res))
     .catch((error) => {
       throw error;
     });
