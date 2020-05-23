@@ -1,20 +1,33 @@
-import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { NavLink, Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { makePostReq } from "../../api";
 import { AuthContext } from "../../context/authContext";
 
 function Signup() {
   const Auth = useContext(AuthContext);
+  const [ok, setOk] = useState(false);
   const { register, errors, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    if (
-      data["username"] === "superman" &&
-      data["password"] === data["repassword"]
-    ) {
-      //Login
-      Auth.login();
-    }
+    console.log(data);
+    makePostReq({ url: "/register", data: data }).then((res) => {
+      console.log(res);
+      if (res) {
+        Auth.login();
+        window.confirm("Login?") ? setOk(true) : setOk(false);
+      }
+    });
   };
+
+  if (ok) {
+    return <Redirect to="/login" />;
+  }
+
+  const token = localStorage.getItem("Token");
+  if (token) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <div>
       <h2>Signup</h2>
@@ -72,7 +85,7 @@ function Signup() {
           <input
             type="password"
             className="form-control"
-            id="exampleInputPassword1"
+            id="exampleInputPassword2"
             name="repassword"
             ref={register({ required: true })}
           />
