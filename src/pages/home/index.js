@@ -7,15 +7,9 @@ function Home() {
   const auth = useContext(AuthContext);
 
   const handleClick = () => {
-    localStorage.removeItem("Token");
-    auth.login();
+    auth.logout();
     setRedirect(true);
   };
-
-  // function handleClick() {
-  //   localStorage.removeItem("Token");
-  //   setRedirect(true);
-  // }
 
   return (
     <div>
