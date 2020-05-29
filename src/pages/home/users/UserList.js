@@ -24,6 +24,11 @@ function UserList() {
     );
     if (confirmed) {
       makeDeleteReq(`/users/${id}`);
+      const updatedUsers = users.filter((ob) => {
+        return ob.id !== id;
+      });
+
+      setUsers(updatedUsers);
     }
   };
 
