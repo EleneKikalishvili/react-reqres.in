@@ -5,7 +5,6 @@ axios.defaults.baseURL = "https://reqres.in/api";
 export const makeGetReq = async (url) => {
   try {
     const response = await axios.get(url);
-    console.log(response);
     return response;
   } catch (error) {
     throw error;
