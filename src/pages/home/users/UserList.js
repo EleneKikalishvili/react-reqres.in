@@ -6,11 +6,8 @@ function UserList() {
   const [page, setPage] = useState(1);
   useEffect(() => {
     makeGetReq(`/users?page=${page}`).then((res) => {
-      setUsers(res.data.data);
-      if (page === 2) {
-        setUsers(users.concat(res.data.data));
-      }
-      console.log(users);
+      console.log(res);
+      setUsers((prevUsers) => prevUsers.concat(res.data.data));
     });
   }, [page]);
 
@@ -20,7 +17,7 @@ function UserList() {
       "Are you sure you want to delete this user?"
     );
     if (confirmed) {
-      makeDeleteReq(`/users/${id}`).then((res) => {});
+      makeDeleteReq(`/users/${id}`);
     }
   };
 
