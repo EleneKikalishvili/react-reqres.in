@@ -3,17 +3,15 @@ import { AuthContext } from "../../context/authContext";
 import { Redirect } from "react-router-dom";
 import UserList from "./users/UserList";
 function Home() {
-  const [redirect, setRedirect] = useState(false);
   const auth = useContext(AuthContext);
 
   const handleClick = () => {
     auth.logout();
-    setRedirect(true);
   };
 
   return (
     <div>
-      {redirect && <Redirect to="/login" />}
+      {!auth.isAuth && <Redirect to="/login" />}
       <nav className="navbar navbar-light bg-light justify-content-between">
         <a className="navbar-brand" href="/">
           Home <span className="sr-only">(current)</span>
