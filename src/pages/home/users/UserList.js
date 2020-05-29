@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeGetReq, makeDeleteReq } from "../../../api";
+import { AuthContext } from "../../../context/authContext";
 
 function UserList() {
+  const Auth = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   useEffect(() => {
-    makeGetReq(`/users?page=${page}`).then((res) => {
-      console.log(res);
-      setUsers((prevUsers) => prevUsers.concat(res.data.data));
-    });
-  }, [page]);
+    if (Auth.isAuth) {
+      makeGetReq(`/users?page=${page}`).then((res) => {
+        setUsers((prevUsers) => prevUsers.concat(res.data.data));
+      });
+    }
+    return () => {
+      console.log("unmounting");
+    };
+  }, [page, Auth]);
 
   const handleDelete = (id, e) => {
     e.preventDefault();
